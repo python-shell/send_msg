@@ -31,7 +31,6 @@ jobs:
           BODY=$(cat output.txt)
           SMTP_SERVER="smtp.163.com"
           SMTP_PORT="25"
-          
           python -c "
 import smtplib
 from email.mime.text import MIMEText
