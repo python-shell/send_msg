@@ -1,0 +1,39 @@
+name: Cron Job to Run hello.py and Send Email
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # 每天5点（UTC）执行任务
+  workflow_dispatch:   # 允许手动触发
+
+jobs:
+  run-hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install smtplib
+
+      - name: Run hello.py
+        run: |
+          python hello.py > output.txt
+          cat output.txt
+
+      - name: Send email
+        run: |
+          EMAIL_SENDER="19536136982@163.com"
+          EMAIL_PASSWORD="CUecL39FchyGt7PE"
+          EMAIL_RECEIVER="778424955@qq.com"
+          SUBJECT="Cron Job Output"
+          BODY=$(cat output.txt)
+          echo "$BODY" | mail -s "$SUBJECT" "$EMAIL_RECEIVER"
+        env:
+          SMTP_SERVER: "smtp.163.com"
+          SMTP_PORT: "25"
