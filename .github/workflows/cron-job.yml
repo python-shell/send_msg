@@ -16,12 +16,7 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
-          
-      - name: Install msmtp
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y msmtp msmtp-mta
-          
+                
       - name: Run hello.py
         run: |
           python hello.py > output.txt
@@ -34,8 +29,8 @@ jobs:
           EMAIL_RECEIVER="778424955@qq.com"
           SUBJECT="Cron Job Output"
           BODY=$(cat output.txt)
-          SMTP_SERVER: "smtp.163.com"
-          SMTP_PORT: "25"
+          SMTP_SERVER="smtp.163.com"
+          SMTP_PORT="25"
           
           python -c "
               import smtplib
@@ -50,7 +45,7 @@ jobs:
               msg.attach(MIMEText('$BODY', 'plain'))
               
               # 连接SMTP服务器并发送邮件
-              server = smtplib.SMTP('$SMTP_SERVER', $SMTP_PORT)
+              server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
               server.starttls()
               server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
               server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
