@@ -15,6 +15,9 @@ jobs:
         with:
           python-version: 3.9
           
+      - name: List files
+        run: ls -la
+
       - name: Run hello.py
         run: |
           python hello.py > output.txt
