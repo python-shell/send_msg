@@ -50,7 +50,7 @@ jobs:
               msg.attach(MIMEText('$BODY', 'plain'))
               
               # 连接SMTP服务器并发送邮件
-              server = smtplib.SMTP('$STMP_SERVER', $SMTP_PORT)
+              server = smtplib.SMTP('$SMTP_SERVER', $SMTP_PORT)
               server.starttls()
               server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
               server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
