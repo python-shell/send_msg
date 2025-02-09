@@ -17,6 +17,11 @@ jobs:
         with:
           python-version: '3.x'
           
+      - name: Install msmtp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y msmtp msmtp-mta
+          
       - name: Run hello.py
         run: |
           python hello.py > output.txt
@@ -29,7 +34,26 @@ jobs:
           EMAIL_RECEIVER="778424955@qq.com"
           SUBJECT="Cron Job Output"
           BODY=$(cat output.txt)
-          echo "$BODY" | mail -s "$SUBJECT" "$EMAIL_RECEIVER"
+          echo "$BODY"
         env:
           SMTP_SERVER: "smtp.163.com"
           SMTP_PORT: "25"
+          python -c "
+              import smtplib
+              from email.mime.text import MIMEText
+              from email.mime.multipart import MIMEMultipart
+              
+              # 邮件内容
+              msg = MIMEMultipart()
+              msg['From'] = '$EMAIL_SENDER'
+              msg['To'] = '$EMAIL_RECEIVER'
+              msg['Subject'] = '$SUBJECT'
+              msg.attach(MIMEText('$BODY', 'plain'))
+              
+              # 连接SMTP服务器并发送邮件
+              server = smtplib.SMTP('$STMP_SERVER', $SMTP_PORT)
+              server.starttls()
+              server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
+              server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
+              server.quit()
+              "
