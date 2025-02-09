@@ -1,39 +1,44 @@
-name: Daily Email Sender
+name: Send Greeting Email
 
 on:
+  # 您可以根据需要调整触发条件
+  workflow_dispatch: # 手动触发
   schedule:
-    - cron: '0 5 * * *'  # 每天5点UTC执行任务
-  workflow_dispatch:  # 允许手动触发工作流
+    - cron: '0 5 * * *' # 每天午夜 UTC 时间触发
 
 jobs:
-  send-email:
+  send_email:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send email
-        run: |
-          python -c "
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
 
-# 邮件内容
-msg = MIMEMultipart()
-msg['From'] = '$EMAIL_SENDER'
-msg['To'] = '$EMAIL_RECEIVER'
-msg['Subject'] = '你好啊'
-msg.attach(MIMEText('你好啊', 'plain'))
-
-# 连接SMTP服务器并发送邮件
-server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
-server.starttls()
-server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
-server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
-server.quit()
-"
+      - name: Send Email
         env:
           EMAIL_SENDER: "19536136982@163.com"
           EMAIL_PASSWORD: "CUecL39FchyGt7PE"
           EMAIL_RECEIVER: "778424955@qq.com"
-          SMTP_SERVER: "smtp.163.com"  # 以163邮箱为例
-          SMTP_PORT: "25"  # 使用 TLS 的端口
+          SUBJECT: "Cron Job Output"
+          BODY: "nihao"
+          SMTP_SERVER: "smtp.163.com"
+          SMTP_PORT: "25"
+        run: |
+          import smtplib
+          from email.mime.text import MIMEText
+          from email.mime.multipart import MIMEMultipart
+          
+          # 邮件内容
+          msg = MIMEMultipart()
+          msg['From'] = '$EMAIL_SENDER'
+          msg['To'] = '$EMAIL_RECEIVER'
+          msg['Subject'] = '$SUBJECT'
+          msg.attach(MIMEText('$BODY', 'plain'))
+          
+          # 连接SMTP服务器并发送邮件
+          server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
+          server.starttls()
+          server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
+          server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
+          server.quit()
