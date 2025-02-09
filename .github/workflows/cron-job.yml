@@ -21,9 +21,9 @@ jobs:
           EMAIL_PASSWORD: "CUecL39FchyGt7PE"
           EMAIL_RECEIVER: "778424955@qq.com"
           SUBJECT: "Cron Job Output"
-          BODY: "nihao"
+          BODY: "nihao111"
           SMTP_SERVER: "smtp.163.com"
-          SMTP_PORT: "587"
+          SMTP_PORT: "25"
         run: |
           python - c "
           import smtplib
@@ -39,7 +39,7 @@ jobs:
           
           # 连接SMTP服务器并发送邮件
           server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
-          server.starttls()
+          # server.starttls()
           server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
           server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
           server.quit()
