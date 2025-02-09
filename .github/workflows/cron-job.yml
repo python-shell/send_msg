@@ -33,21 +33,21 @@ jobs:
           SMTP_PORT="25"
           
           python -c "
-              import smtplib
-              from email.mime.text import MIMEText
-              from email.mime.multipart import MIMEMultipart
-              
-              # 邮件内容
-              msg = MIMEMultipart()
-              msg['From'] = '$EMAIL_SENDER'
-              msg['To'] = '$EMAIL_RECEIVER'
-              msg['Subject'] = '$SUBJECT'
-              msg.attach(MIMEText('$BODY', 'plain'))
-              
-              # 连接SMTP服务器并发送邮件
-              server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
-              server.starttls()
-              server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
-              server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
-              server.quit()
-              "
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# 邮件内容
+msg = MIMEMultipart()
+msg['From'] = '$EMAIL_SENDER'
+msg['To'] = '$EMAIL_RECEIVER'
+msg['Subject'] = '$SUBJECT'
+msg.attach(MIMEText('$BODY', 'plain'))
+
+# 连接SMTP服务器并发送邮件
+server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
+server.starttls()
+server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
+server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
+server.quit()
+"
