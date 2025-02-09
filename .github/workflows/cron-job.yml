@@ -32,15 +32,15 @@ jobs:
           
           # 邮件内容
           msg = MIMEMultipart()
-          msg['From'] = '$EMAIL_SENDER'
-          msg['To'] = '$EMAIL_RECEIVER'
-          msg['Subject'] = '$SUBJECT'
-          msg.attach(MIMEText('$BODY', 'plain'))
+          msg['From'] = '19536136982@163.com'
+          msg['To'] = '778424955@qq.com'
+          msg['Subject'] = 'Cron Job Output'
+          msg.attach(MIMEText('nihao111', 'plain'))
           
           # 连接SMTP服务器并发送邮件
-          server = smtplib.SMTP('$SMTP_SERVER', '$SMTP_PORT')
+          server = smtplib.SMTP('smtp.163.com', '25')
           # server.starttls()
-          server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
-          server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
+          server.login('19536136982@163.com', 'CUecL39FchyGt7PE')
+          server.sendmail('19536136982@163.com', '778424955@qq.com', msg.as_string())
           server.quit()
           "
