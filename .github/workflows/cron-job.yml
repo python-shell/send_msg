@@ -25,6 +25,7 @@ jobs:
           SMTP_SERVER: "smtp.163.com"
           SMTP_PORT: "25"
         run: |
+          python - c "
           import smtplib
           from email.mime.text import MIMEText
           from email.mime.multipart import MIMEMultipart
@@ -42,3 +43,4 @@ jobs:
           server.login('$EMAIL_SENDER', '$EMAIL_PASSWORD')
           server.sendmail('$EMAIL_SENDER', '$EMAIL_RECEIVER', msg.as_string())
           server.quit()
+          "
