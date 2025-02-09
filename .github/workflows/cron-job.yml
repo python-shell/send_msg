@@ -34,10 +34,9 @@ jobs:
           EMAIL_RECEIVER="778424955@qq.com"
           SUBJECT="Cron Job Output"
           BODY=$(cat output.txt)
-          echo "$BODY"
-        env:
           SMTP_SERVER: "smtp.163.com"
           SMTP_PORT: "25"
+          
           python -c "
               import smtplib
               from email.mime.text import MIMEText
