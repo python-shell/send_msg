@@ -23,7 +23,7 @@ jobs:
           SUBJECT: "Cron Job Output"
           BODY: "nihao"
           SMTP_SERVER: "smtp.163.com"
-          SMTP_PORT: "25"
+          SMTP_PORT: "587"
         run: |
           python - c "
           import smtplib
