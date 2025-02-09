@@ -2,7 +2,7 @@ name: Cron Job to Run hello.py and Send Email
 
 on:
   schedule:
-    - cron: '0 5 * * *'  # 每天5点（UTC）执行任务
+    - cron: '6 8 * * *'  # 每天5点（UTC）执行任务
   workflow_dispatch:   # 允许手动触发
 
 jobs:
