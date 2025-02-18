@@ -4,7 +4,7 @@ on:
   # 您可以根据需要调整触发条件
   workflow_dispatch: # 手动触发
   schedule:
-    - cron: '0 1 * * *' # 每天午夜 UTC 时间触发
+    - cron: '0 1 * * *' # 每天 UTC 时间触发
 
 jobs:
   send_email:
@@ -26,41 +26,6 @@ jobs:
           
       - name: Run hello.py
         run: |
-          python gemini.py > output.txt
+          python gemini.py
           
-      - name: Send Email
-        env:
-          EMAIL_SENDER: "19536136982@163.com"
-          EMAIL_PASSWORD: "CUecL39FchyGt7PE"
-          EMAIL_RECEIVER: "778424955@qq.com"
-          SUBJECT: "Cron Job Output"
-          BODY: "$(cat output.txt)"
-          SMTP_SERVER: "smtp.163.com"
-          SMTP_PORT: "25"
-        run: |
-          python -c "
-          import smtplib
-          from email.mime.text import MIMEText
-          from email.mime.multipart import MIMEMultipart
-
-          sender = '${{ env.EMAIL_SENDER }}'
-          receiver = '${{ env.EMAIL_RECEIVER }}'
-          password = '${{ env.EMAIL_PASSWORD }}'
-          subject = '${{ env.SUBJECT }}'
-          body = '${{ env.BODY }}'
-
-          msg = MIMEMultipart()
-          msg['From'] = sender
-          msg['To'] = receiver
-          msg['Subject'] = subject
-          msg.attach(MIMEText(body, 'plain'))
-
-          try:
-              server = smtplib.SMTP('${{ env.SMTP_SERVER }}', ${{ env.SMTP_PORT }})
-              server.login(sender, password)
-              server.sendmail(sender, receiver, msg.as_string())
-              server.quit()
-              print('邮件发送成功')
-          except Exception as e:
-              print(f'邮件发送失败: {e}')
-          "
+      
