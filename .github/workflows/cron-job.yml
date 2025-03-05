@@ -23,9 +23,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install google-generativeai  # 安装 google-generativeai 库
-          
+          pip install openai
       - name: Run hello.py
         run: |
-          python gemini.py
+          python deepseek.py
           
       
